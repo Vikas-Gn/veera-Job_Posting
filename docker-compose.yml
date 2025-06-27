@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-jobposting
+    ports:
+      - "5032:5432"
+    environment:
+      POSTGRES_DB: job_post
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./Backend
+    container_name: Backend-jobposting
+    ports:
+      - "3065:3065"
+    depends_on:
+      - postgres
+    environment:
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: admin123
+      PGDATABASE: job_post
+      PGPORT: 5432
+
+  frontend:
+    build: ./Fronted
+    container_name: Frontend-jobposting
+    ports:
+      - "8093:80"
+
+  hr:
+    build: ./Hr
+    container_name: HR-jobposting
+    ports:
+      - "8094:80"
+
+volumes:
+  postgres-data:
+
