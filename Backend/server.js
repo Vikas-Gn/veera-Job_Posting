@@ -106,5 +106,5 @@ app.post('/api/jobs', async (req, res) => {
 
 app.listen(port, async () => {
     await initializeDatabase();
-    console.log(`Server running on http://65.0.182.44:${port}`);
+    console.log(`Server running on http://43.205.116.109:${port}`);
 });
